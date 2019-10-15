@@ -1,5 +1,5 @@
 from IPython.display import clear_output
-from random import randint
+from random import randint, choice
 
 class DragonDungeon():
     def __init__(self, rows, cols):
@@ -10,30 +10,34 @@ class DragonDungeon():
         p_coords = player.getCoords()
         dragon_coords = dragon.getCoords()
         d_coords = door.getCoords()
+        # how would I instantiate a number of chests automatically based on level number?
+        # I'd like to have multiple chests containing random items, including a key needed
+        # to unlock the door.
+        # chest_coords = [chest.getCoords for chest in chests]
 
         print(f'Player Coords: {p_coords} \t Lives: {player.getLives()}')
         print(f'Dragon Coords: {dragon_coords}')
-        print(f'Player Coords: {d_coords}')
+        print(f'Door Coords: {d_coords}')
 
         for row in range(self.rows):
             print('+------' * self.cols + '+')
             for col in range(self.cols):
                 if p_coords == [col, row] and col == self.cols - 1:
-                    print('| :P ', end='|\n')
+                    print('|  :)  ', end='|\n')
                 elif p_coords == [col, row]:
-                    print('| :P ', end='')
+                    print('|  :)  ', end='')
                 elif dragon_coords == [col, row] and col == self.cols - 1:
                     print('| (&)~ ', end='|\n')
                 elif dragon_coords == [col, row]:
                     print('| (&)~ ', end='')
                 elif d_coords == [col, row] and col == self.cols - 1:
-                    print('| [<>] ', end='|\n')
+                    print('|[EXIT]', end='|\n')
                 elif d_coords == [col, row]:
-                    print('| [<>] ', end='')
+                    print('|[EXIT]', end='')
                 elif col == self.cols - 1:
-                    print('|   ', end='|\n')
+                    print('|      ', end='|\n')
                 else:
-                    print('|   ', end='')
+                    print('|      ', end='')
 
             # print bottom border of grid
             if row == self.rows - 1:
@@ -68,7 +72,30 @@ class Character():
         return self.lives
 
     def moveDragon(self, rows, cols):
-        self.coords = [randint(0, cols - 1), randint(0, rows - 1)]
+        # possible moves for dragon
+        moves = ['left', 'right', 'up', 'down', 'teleport']
+        # select dragon movement at random:
+        ans = choice(moves)
+
+        if ans == 'left':
+            self.coords[0] -= 1
+        elif ans == 'right':
+            self.coords[0] += 1 # test moving right
+        elif ans == 'up':
+            self.coords[1] -= 1
+        elif ans == 'down':
+            self.coords[1] += 1
+        else:
+            # teleport!!!!!!!!
+            self.coords = [randint(0, cols - 1), randint(0, rows - 1)]
+
+
+         # original working version
+#         self.coords = [randint(0, cols - 1), randint(0, rows - 1)]
+
+#         teleport = [randint(0, cols - 1), randint(0, rows - 1)]
+#         self.coords = [self.coords[0] - 1, self.coords[0] + 1, self.coords[1] - 1, self.coords[1] + 1,
+#                       teleport]
 
     def movePlayer(self):
         '''
@@ -118,7 +145,7 @@ while not done:
 
     while playing:
 
-        game.showGrid(player, monster, door)
+        game.showGrid(player, dragon, door)
 
         # handle user movement
 
