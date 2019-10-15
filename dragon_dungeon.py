@@ -111,16 +111,16 @@ class Character():
 
             if ans == 'q':
                 return True
-            elif ans == 'left':
+            elif ans == 'left' and self.coords[0] > 0:
                 self.coords[0] -= 1
                 moved = True
-            elif ans == 'right':
+            elif ans == 'right' and self.coords[0] < cols - 1:
                 self.coords[0] += 1
                 moved = True
-            elif ans == 'up':
+            elif ans == 'up' and self.coords[1] > 0:
                 self.coords[1] -= 1
                 moved = True
-            elif ans == 'down':
+            elif ans == 'down' and self.coords[1] < rows - 1:
                 self.coords[1] += 1
                 moved = True
             else:
