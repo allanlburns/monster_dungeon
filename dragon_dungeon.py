@@ -77,25 +77,19 @@ class Character():
         # select dragon movement at random:
         ans = choice(moves)
 
-        if ans == 'left':
+        if ans == 'left' and self.coords[0] > 0:
             self.coords[0] -= 1
-        elif ans == 'right':
+        elif ans == 'right' and self.coords[0] < cols - 1:
             self.coords[0] += 1 # test moving right
-        elif ans == 'up':
+        elif ans == 'up' and self.coords[1] > 0:
             self.coords[1] -= 1
-        elif ans == 'down':
+        elif ans == 'down' and self.coords[1] < rows - 1:
             self.coords[1] += 1
-        else:
+        elif ans == 'teleport':
             # teleport!!!!!!!!
             self.coords = [randint(0, cols - 1), randint(0, rows - 1)]
-
-
-         # original working version
-#         self.coords = [randint(0, cols - 1), randint(0, rows - 1)]
-
-#         teleport = [randint(0, cols - 1), randint(0, rows - 1)]
-#         self.coords = [self.coords[0] - 1, self.coords[0] + 1, self.coords[1] - 1, self.coords[1] + 1,
-#                       teleport]
+        else:
+            pass
 
     def movePlayer(self):
         '''
@@ -148,14 +142,12 @@ while not done:
         game.showGrid(player, dragon, door)
 
         # handle user movement
-
         if player.movePlayer() == True:
             playing = False
             done = True
 
 
         # handle dragon movement
-
         dragon.moveDragon(rows, cols)
 
 
